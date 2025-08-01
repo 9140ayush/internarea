@@ -22,7 +22,7 @@ import { selectuser } from "@/Feature/Userslice";
 //       title: "Frontend Developer",
 //       company: "Amazon",
 //       location: "Seattle",
-//       CTC: "$100K/year",
+//       CTC: " ",
 //       Experience: "2+ years",
 //       category: "Engineering",
 //       StartDate: "April 1, 2025",

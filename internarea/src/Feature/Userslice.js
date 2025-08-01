@@ -3,11 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userslice = createSlice({
   name: "user",
   initialState: {
-    value: null,
+    user: null,
   },
   reducers: {
     login: (state, action) => {
-      state.user = action.payload;
+      state.user = {
+        ...action.payload,
+        firebaseUid: action.payload.uid,
+        id: action.payload.uid
+      };
     },
     logout: (state) => {
       state.user = null;
