@@ -3,6 +3,7 @@ import { User, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { API_ENDPOINTS } from "@/config/api";
 
 const index = () => {
   const [formadata, setformadata] = useState({
@@ -27,7 +28,7 @@ const index = () => {
     try {
       setisloading(true);
       const res = await axios.post(
-        "https://internarea-h88w.onrender.com/api/admin/adminlogin",
+        API_ENDPOINTS.ADMIN_LOGIN,
         formadata
       );
       toast.success("logged in successfuly");

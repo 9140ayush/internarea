@@ -130,6 +130,16 @@ router.post("/upload", getUserFromAuth, upload.single("avatar"), async (req, res
       success: true,
       profileImage: result.secure_url,
       displayImage: updatedUser.displayImage,
+      user: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        photoURL: updatedUser.photoURL,
+        profileImage: updatedUser.profileImage,
+        displayImage: updatedUser.displayImage,
+        avatarType: updatedUser.avatarType,
+        firebaseUid: updatedUser.firebaseUid
+      },
       message: "Profile image uploaded successfully"
     });
   } catch (error) {
@@ -163,6 +173,16 @@ router.post("/generate-dicebear", getUserFromAuth, async (req, res) => {
       success: true,
       profileImage: avatarUrl,
       displayImage: updatedUser.displayImage,
+      user: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        photoURL: updatedUser.photoURL,
+        profileImage: updatedUser.profileImage,
+        displayImage: updatedUser.displayImage,
+        avatarType: updatedUser.avatarType,
+        firebaseUid: updatedUser.firebaseUid
+      },
       message: "DiceBear avatar generated successfully"
     });
   } catch (error) {
@@ -245,6 +265,16 @@ router.delete("/profile-image", getUserFromAuth, async (req, res) => {
     res.json({
       success: true,
       displayImage: updatedUser.displayImage,
+      user: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        photoURL: updatedUser.photoURL,
+        profileImage: updatedUser.profileImage,
+        displayImage: updatedUser.displayImage,
+        avatarType: updatedUser.avatarType,
+        firebaseUid: updatedUser.firebaseUid
+      },
       message: "Profile image removed successfully"
     });
   } catch (error) {

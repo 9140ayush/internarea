@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { API_ENDPOINTS } from "@/config/api";
 // export const internships = [
 //   {
 //     _id: "1",
@@ -78,7 +79,7 @@ const index = () => {
   useEffect(()=>{
     const fetchdata=async()=>{
       try {
-        const res=await axios.get( `https://internarea-h88w.onrender.com/api/internship/${id}`)     
+        const res=await axios.get(API_ENDPOINTS.INTERNSHIP_BY_ID(id as string))     
         setinternship(res.data)
       } catch (error) {
         console.log(error)
@@ -115,7 +116,7 @@ const index = () => {
         Application:id,
         availability
       }
-      await axios.post("https://internarea-h88w.onrender.com/api/application",applicationdata)
+      await axios.post(API_ENDPOINTS.APPLICATIONS,applicationdata)
       toast.success("Application submit successfully")
       router.push('/internship')
     } catch (error) {

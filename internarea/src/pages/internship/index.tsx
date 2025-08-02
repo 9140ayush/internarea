@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { API_ENDPOINTS } from "@/config/api";
 // const internshipData = [
 //   {
 //     _id: "1",
@@ -58,7 +59,7 @@ const index = () => {
   useEffect(()=>{
     const fetchdata=async()=>{
       try {
-        const res=await axios.get( "https://internarea-h88w.onrender.com/api/internship")     
+        const res=await axios.get(API_ENDPOINTS.INTERNSHIPS)     
         setinternship(res.data)
         setfilteredInternships(res.data)
       } catch (error) {

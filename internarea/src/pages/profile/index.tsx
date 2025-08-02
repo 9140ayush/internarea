@@ -1,7 +1,7 @@
 import { selectuser } from "@/Feature/Userslice";
 import { ExternalLink, Mail, User, Edit3, Save, X, Loader2 } from "lucide-react";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import AvatarUpload from "@/Components/AvatarUpload";
 import axios from "axios";
@@ -29,6 +29,7 @@ const ProfilePage = () => {
     email: ''
   });
   const [isSaving, setIsSaving] = useState(false);
+  const [isUpdatingAvatar, setIsUpdatingAvatar] = useState(false);
 
   // Get auth headers for API calls
   const getAuthHeaders = () => {
@@ -44,12 +45,12 @@ const ProfilePage = () => {
   };
 
   // Fetch user profile data
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async (retryCount = 0) => {
     try {
       setLoading(true);
-             const response = await axios.get(API_ENDPOINTS.AVATAR_PROFILE, {
-         headers: getAuthHeaders()
-       });
+      const response = await axios.get(API_ENDPOINTS.AVATAR_PROFILE, {
+        headers: getAuthHeaders()
+      });
 
       if (response.data.success) {
         setUser(response.data.user);
@@ -60,6 +61,14 @@ const ProfilePage = () => {
       }
     } catch (error: any) {
       console.error('Fetch profile error:', error);
+      
+      // Retry once if it's a network error
+      if (retryCount < 1 && (error.code === 'ECONNABORTED' || error.message.includes('timeout'))) {
+        console.log('Retrying profile fetch...');
+        setTimeout(() => fetchUserProfile(retryCount + 1), 1000);
+        return;
+      }
+      
       // Fallback to Redux user data
       if (reduxUser) {
         setUser({
@@ -78,18 +87,18 @@ const ProfilePage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [reduxUser]);
 
   // Update profile
   const handleProfileUpdate = async () => {
     try {
       setIsSaving(true);
-             const response = await axios.put(API_ENDPOINTS.AVATAR_PROFILE, editForm, {
-         headers: {
-           ...getAuthHeaders(),
-           'Content-Type': 'application/json'
-         }
-       });
+      const response = await axios.put(API_ENDPOINTS.AVATAR_PROFILE, editForm, {
+        headers: {
+          ...getAuthHeaders(),
+          'Content-Type': 'application/json'
+        }
+      });
 
       if (response.data.success) {
         setUser(response.data.user);
@@ -104,7 +113,7 @@ const ProfilePage = () => {
     }
   };
 
-  // Handle avatar change
+  // Handle avatar change - immediate local state update
   const handleAvatarChange = (newAvatar: string) => {
     if (user) {
       setUser({
@@ -114,27 +123,65 @@ const ProfilePage = () => {
     }
   };
 
-  // Handle profile update from avatar component
-  const handleProfileUpdateFromAvatar = (userData: any) => {
-    setUser(userData);
+  // Handle profile update from avatar component - re-fetch user data
+  const handleProfileUpdateFromAvatar = async (userData?: any) => {
+    try {
+      setIsUpdatingAvatar(true);
+      
+      // Update local state immediately if user data is provided
+      if (userData) {
+        setUser(userData);
+      }
+      
+      // Add a small delay to ensure backend has updated the database
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Always re-fetch user data to ensure consistency
+      await fetchUserProfile();
+    } catch (error) {
+      console.error('Avatar update error:', error);
+      toast.error('Failed to update avatar. Please refresh the page.');
+    } finally {
+      setIsUpdatingAvatar(false);
+    }
   };
 
   useEffect(() => {
     fetchUserProfile();
-  }, []);
+  }, [fetchUserProfile]);
 
-  if (loading) {
+  if (loading || isUpdatingAvatar) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex items-center space-x-2">
           <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
-          <span className="text-gray-600">Loading profile...</span>
+          <span className="text-gray-600">
+            {isUpdatingAvatar ? 'Updating avatar...' : 'Loading profile...'}
+          </span>
         </div>
       </div>
     );
   }
 
   if (!user) {
+    // Fallback to Redux user data if available
+    if (reduxUser) {
+      const fallbackUser = {
+        _id: reduxUser.id || 'demo-user',
+        name: reduxUser.name,
+        email: reduxUser.email,
+        photoURL: reduxUser.photo,
+        displayImage: reduxUser.photo,
+        firebaseUid: reduxUser.firebaseUid
+      };
+      setUser(fallbackUser);
+      setEditForm({
+        name: reduxUser.name,
+        email: reduxUser.email
+      });
+      return null; // Return null to trigger re-render with fallback user
+    }
+    
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">

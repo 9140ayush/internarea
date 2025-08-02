@@ -7,6 +7,7 @@ import { signInWithPopup, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { selectuser } from "@/Feature/Userslice";
+import LanguageSelector from "./LanguageSelector";
   interface User {
     name: string;
     email: string;
@@ -55,6 +56,11 @@ const Navbar = () => {
                   <span>Jobs</span>
                 </Link>
               </button>
+              <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600">
+                <Link href={"/videoResume"}>
+                  <span>Video Resume</span>
+                </Link>
+              </button>
               <div className="flex items-center bg-gray-100 rounded-full px-4 py-2">
                 <Search size={16} className="text-gray-400" />
                 <input
@@ -65,8 +71,9 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Auth Buttons */}
+            {/* Language Selector and Auth Buttons */}
             <div className="flex items-center space-x-4">
+              <LanguageSelector />
               {user ? (
                 <div className="relative flex">
                   <button className="flex items-center space-x-2">

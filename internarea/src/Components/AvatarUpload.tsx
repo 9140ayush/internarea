@@ -85,7 +85,12 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
       if (response.data.success) {
         setAvatar(response.data.displayImage);
         onAvatarChange(response.data.displayImage);
-        onProfileUpdate?.(response.data.user);
+        // Call onProfileUpdate with user data if available, otherwise just trigger a re-fetch
+        if (response.data.user) {
+          onProfileUpdate?.(response.data.user);
+        } else {
+          onProfileUpdate?.();
+        }
         toast.success('Profile image uploaded successfully!');
       }
     } catch (error: any) {
@@ -117,7 +122,12 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
       if (response.data.success) {
         setAvatar(response.data.displayImage);
         onAvatarChange(response.data.displayImage);
-        onProfileUpdate?.(response.data.user);
+        // Call onProfileUpdate with user data if available, otherwise just trigger a re-fetch
+        if (response.data.user) {
+          onProfileUpdate?.(response.data.user);
+        } else {
+          onProfileUpdate?.();
+        }
         setShowDiceBearModal(false);
         toast.success('Avatar generated successfully!');
       }
@@ -138,7 +148,12 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
       if (response.data.success) {
         setAvatar(response.data.displayImage);
         onAvatarChange(response.data.displayImage);
-        onProfileUpdate?.(response.data.user);
+        // Call onProfileUpdate with user data if available, otherwise just trigger a re-fetch
+        if (response.data.user) {
+          onProfileUpdate?.(response.data.user);
+        } else {
+          onProfileUpdate?.();
+        }
         toast.success('Profile image removed successfully!');
       }
     } catch (error: any) {

@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_ENDPOINTS } from "@/config/api";
 const index = () => {
   const [formData, setFormData] = useState({
     title: "",
@@ -47,7 +48,7 @@ const index = () => {
     }
     try {
       setisloading(true);
-      const res = await axios.post("https://internarea-h88w.onrender.com/api/internship", formData);
+      const res = await axios.post(API_ENDPOINTS.INTERNSHIPS, formData);
       toast.success("job posted successfuly");
       router.push("/adminpanel");
     } catch (error) {

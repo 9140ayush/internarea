@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { API_ENDPOINTS } from "@/config/api";
 
 const index = () => {
   // const filteredJobs = [
@@ -127,7 +128,7 @@ const index = () => {
   useEffect(()=>{
     const fetchdata=async()=>{
       try {
-        const res=await axios.get( "https://internarea-h88w.onrender.com/api/job")     
+        const res=await axios.get(API_ENDPOINTS.JOBS)     
         setjob(res.data)
         setfilteredjobs(res.data)
       } catch (error) {

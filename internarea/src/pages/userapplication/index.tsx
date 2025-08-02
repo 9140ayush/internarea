@@ -12,6 +12,7 @@ import Link from "next/link";
 import axios from "axios";
 import { selectuser } from "@/Feature/Userslice";
 import { useSelector } from "react-redux";
+import { API_ENDPOINTS } from "@/config/api";
 const Applications = [
   {
     _id: "1",
@@ -63,7 +64,7 @@ const index = () => {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get("https://internarea-h88w.onrender.com/api/application");
+        const res = await axios.get(API_ENDPOINTS.APPLICATIONS);
         setdata(res.data);
       } catch (error) {
         console.log(error);

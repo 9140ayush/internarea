@@ -2,6 +2,7 @@ import axios from "axios";
 import { Building2, Calendar, FileText, Loader2, User } from "lucide-react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { API_ENDPOINTS } from "@/config/api";
 
 const index = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const index = () => {
       try {
         setloading(true);
         const res = await axios.get(
-          `https://internarea-h88w.onrender.com/api/application/${id}`
+          API_ENDPOINTS.APPLICATION_BY_ID(id as string)
         );
         console.log(res.data);
         setdata(res.data);

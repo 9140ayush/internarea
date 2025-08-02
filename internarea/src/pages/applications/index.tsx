@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { API_ENDPOINTS } from "@/config/api";
 // const Applications = [
 //   {
 //     _id: "1",
@@ -54,7 +55,7 @@ const index = () => {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get("https://internarea-h88w.onrender.com/api/application");
+        const res = await axios.get(API_ENDPOINTS.APPLICATIONS);
         setdata(res.data);
       } catch (error) {
         console.log(error);
@@ -74,7 +75,7 @@ const index = () => {
   const handleacceptandreject = async (id: any, action: any) => {
     try {
       const res = await axios.put(
-        `https://internarea-h88w.onrender.com/api/application/${id}`,
+        API_ENDPOINTS.APPLICATION_BY_ID(id),
         { action }
       );
       const updateappliacrtion = data.map((app: any) =>
