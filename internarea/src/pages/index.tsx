@@ -39,7 +39,7 @@ export default function SvgSlider() {
         setinternship(internshipres.data);
         setjob(jobres.data);
       } catch (error) {
-        console.log(error);
+        // Error handled silently for production
       }
     };
     fetchdata();

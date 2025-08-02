@@ -52,9 +52,9 @@ export default function App({ Component, pageProps }: AppProps) {
                   'Content-Type': 'application/json',
                 }
               });
-              console.log('User data synced successfully:', response.data);
+              // User data synced successfully
             } catch (error: any) {
-              console.error('Failed to sync user data:', error);
+              // Failed to sync user data - handled silently
               // Don't show error to user as this is a background sync
               // Only log for debugging purposes
             }

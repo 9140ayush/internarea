@@ -85,16 +85,13 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
       if (response.data.success) {
         setAvatar(response.data.displayImage);
         onAvatarChange(response.data.displayImage);
-        // Call onProfileUpdate with user data if available, otherwise just trigger a re-fetch
-        if (response.data.user) {
-          onProfileUpdate?.(response.data.user);
-        } else {
-          onProfileUpdate?.();
+        // Call onProfileUpdate with user data if available
+        if (response.data.user && onProfileUpdate) {
+          onProfileUpdate(response.data.user);
         }
         toast.success('Profile image uploaded successfully!');
       }
     } catch (error: any) {
-      console.error('Upload error:', error);
       toast.error(error.response?.data?.error || 'Failed to upload image. Please try again.');
     } finally {
       setIsUploading(false);
@@ -122,17 +119,14 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
       if (response.data.success) {
         setAvatar(response.data.displayImage);
         onAvatarChange(response.data.displayImage);
-        // Call onProfileUpdate with user data if available, otherwise just trigger a re-fetch
-        if (response.data.user) {
-          onProfileUpdate?.(response.data.user);
-        } else {
-          onProfileUpdate?.();
+        // Call onProfileUpdate with user data if available
+        if (response.data.user && onProfileUpdate) {
+          onProfileUpdate(response.data.user);
         }
         setShowDiceBearModal(false);
         toast.success('Avatar generated successfully!');
       }
     } catch (error: any) {
-      console.error('DiceBear generation error:', error);
       toast.error(error.response?.data?.error || 'Failed to generate avatar. Please try again.');
     } finally {
       setIsGenerating(false);
@@ -148,16 +142,13 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
       if (response.data.success) {
         setAvatar(response.data.displayImage);
         onAvatarChange(response.data.displayImage);
-        // Call onProfileUpdate with user data if available, otherwise just trigger a re-fetch
-        if (response.data.user) {
-          onProfileUpdate?.(response.data.user);
-        } else {
-          onProfileUpdate?.();
+        // Call onProfileUpdate with user data if available
+        if (response.data.user && onProfileUpdate) {
+          onProfileUpdate(response.data.user);
         }
         toast.success('Profile image removed successfully!');
       }
     } catch (error: any) {
-      console.error('Remove avatar error:', error);
       toast.error(error.response?.data?.error || 'Failed to remove avatar. Please try again.');
     }
   };
