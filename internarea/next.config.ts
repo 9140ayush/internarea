@@ -4,10 +4,10 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['res.cloudinary.com', 'api.dicebear.com'],
-    unoptimized: true,
+    unoptimized: true, 
   },
   env: {
-    CUSTOM_KEY: process.env.CUSTOM_KEY,
+    CUSTOM_KEY: process.env.CUSTOM_KEY, 
   },
 };
 
