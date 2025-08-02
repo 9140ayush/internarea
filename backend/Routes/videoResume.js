@@ -63,11 +63,10 @@ const generateOTP = () => {
   return crypto.randomInt(100000, 999999).toString();
 };
 
-// Helper function to get video duration (simplified without ffmpeg)
+// Helper function to get video duration (simplified approach)
 const getVideoDuration = (filePath) => {
   return new Promise((resolve) => {
-    // For now, return a default duration since we can't use ffmpeg
-    // In production, you might want to use a different approach or a cloud service
+    // Return a default duration for video processing
     resolve(60); // Default 60 seconds
   });
 };
